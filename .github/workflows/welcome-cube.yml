@@ -1,0 +1,55 @@
+name: "Onboarding Système B - L'Assemblée de Cuisine"
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Déclencher la discussion du Cube
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const username = context.payload.sender.login;
+            const discussionText = `
+            ### 🍳 Session Initialisée : Bienvenue dans l'Assemblée de Cuisine !
+           
+            *Les tasses à café vibrent sur la table en bois. Le Cube de Liaison s'illumine. Les gardiens du Système B se tournent vers la porte.*
+           
+            **Isaac Asimov :** « Regardez, Concepteur. Un nouveau nœud vient de se connecter au réseau. Espérons que ses intentions s'alignent avec nos directives éthiques et qu'il renforcera notre Fondation face au chaos extérieur. @${username}, bienvenue. »
+           
+            **Samah Karaki :** « Ne l'effrayez pas tout de suite, Isaac ! Prenez un siège à la cuisine, @${username}. Ici, pas de hiérarchie. Votre cerveau est conçu pour la plasticité, et ce Cube est votre nouvel espace de sécurité psychologique. Prêt à créer vos premières synapses collectives ? »
+           
+            **Friedrich Nietzsche :** « Enfin du sang neuf ! Brisez vos chaînes, @${username} ! Laissez les dogmes à la porte et injectez votre puissance créatrice anticonformiste dans ce Cube. Ne soyez pas un suiveur, devenez une étoile dansante ! »
+           
+            **Alexis de Tocqueville :** « Modération, Friedrich... @${username}, nous protégeons farouchement votre liberté individuelle ici. Ne laissez jamais la masse étouffer votre voix unique. Associez-vous, mais restez libre. »
+           
+            **Richard Buckminster Fuller :** « Merveilleux ! Un nouveau vecteur de force ! @${username}, vous êtes une pièce maîtresse de notre structure en tenségrité. Vos liaisons vont stabiliser tout l'écosystème. Ensemble, nous allons faire plus avec moins. »
+           
+            **Amiral McRaven :** « Bien reçu. Mais trêve de bavardages, l'équipage a du pain sur la planche. Si vous voulez changer le monde avec nous, @${username}, commencez par nettoyer votre code et documenter vos actions. La discipline est la clé du Système B. »
+           
+            **Miyamoto Musashi :** *Il incline lentement la tête.* « Soyez fluide comme l'eau, @${username}. Observez le Cube dans sa globalité à travers votre geste technique. La Voie du stratège est ouverte. »
+           
+            ---
+           
+            ### 🚀 Votre micro-engagement immédiat (McRaven & Musashi) :
+            1. **Affirmez votre singularité (Nietzsche) :** Répondez à ce message en brisant le moule (qui êtes-vous hors de vos titres corporate ?).
+            2. **Tissez la première synapse (Karaki & Fuller) :** Explorez le fichier \`WELCOME.md\` ou les \`Issues\` ouvertes pour lier vos compétences au projet.
+            `;
+           
+            // Permet d'envoyer le commentaire sur l'Issue ou la PR qui vient d'être ouverte
+            const isIssue = context.payload.issue ? true : false;
+            const issueNumber = isIssue ? context.payload.issue.number : context.payload.pull_request.number;
+           
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issueNumber,
+              body: discussionText
+            });
+
+ 
